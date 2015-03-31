@@ -1,8 +1,6 @@
 use Time::Local;
-require "./qreki.pl";
 
 init();
-#saveFile("temp3.html",htmlExpander(loadFile("./benronbu.html")));
 
 sub showHttp{
 	my $temp=htmlExpander(loadFile($_[0]));
@@ -61,7 +59,7 @@ sub htmlExpanderCommandLong{
 	}
 
 sub htmlExpanderCommand{
-	my %commandHash=("HEAD",\&htmlExpanderHead,"TAIL",\&htmlExpanderTail,"INCLUDE",\&htmlExpanderInclude,"ENV",\&htmlExpanderEnv,"FORM",\&htmlExpanderForm,"LOAD",\&htmlExpanderLoadVar,"VAR",\&htmlExpanderShowVar,"SAVE_FORM_DATA",\&htmlExpanderSaveFormData,"SET",\&htmlExpanderSetVar,"TABTITLE",\&htmlExpanderShowTab,"INPUTFORM",\&htmlExpanderFormMaker,"SAVE_COOKIE",\&htmlExpanderSetCookie,"ALINK",\&htmlExpanderAlink,"VARLIST_URL",\&htmlExpanderShowVarListUrl,"CALC",\&htmlExpanderCalc,"GETDAY",\&htmlExpanderGetDay,"MOONAGE",\&htmlExpanderMoonAge,"ROKUYOU",\&htmlExpanderRokuyou,"24SEKKI",\&htmlExpander24Sekki,"TEXT_EX_TABTITLE",\&htmlExpanderTextExToTabList,"TEXT_EX_HTML",\&htmlExpanderTextExToHtml,"TEXT_EX_HTML_TAB",\&htmlExpanderTextExToHtmlSwitch);
+	my %commandHash=("HEAD",\&htmlExpanderHead,"TAIL",\&htmlExpanderTail,"INCLUDE",\&htmlExpanderInclude,"ENV",\&htmlExpanderEnv,"FORM",\&htmlExpanderForm,"LOAD",\&htmlExpanderLoadVar,"VAR",\&htmlExpanderShowVar,"SAVE_FORM_DATA",\&htmlExpanderSaveFormData,"SET",\&htmlExpanderSetVar,"TABTITLE",\&htmlExpanderShowTab,"INPUTFORM",\&htmlExpanderFormMaker,"SAVE_COOKIE",\&htmlExpanderSetCookie,"ALINK",\&htmlExpanderAlink,"VARLIST_URL",\&htmlExpanderShowVarListUrl,"CALC",\&htmlExpanderCalc,"GETDAY",\&htmlExpanderGetDay,"MOONAGE",\&htmlExpanderMoonAge,"TEXT_EX_TABTITLE",\&htmlExpanderTextExToTabList,"TEXT_EX_HTML",\&htmlExpanderTextExToHtml,"TEXT_EX_HTML_TAB",\&htmlExpanderTextExToHtmlSwitch);
 	my $temp=$_[0];
 	$temp=~ s/\'(.+?)\'/deleteSpace($1)/eg ;
 	while($temp=~ /\([^\(\)]+\)/){
@@ -77,7 +75,7 @@ sub htmlExpanderCommand{
 	}
 
 sub htmlExpanderCommandSimple{
-	my %commandHash=("CALC",\&simpleCalc,"LOCALTIME",\&htmlExpanderLocalTime,"GMTIME",\&htmlExpanderGMTime,"GETDAY",\&htmlExpanderGetDayText,"MOONAGE",\&htmlExpanderMoonAgeText,"ROKUYOU",\&htmlExpanderRokuyouText,"24SEKKI",\&htmlExpander24SekkiText);
+	my %commandHash=("CALC",\&simpleCalc,"LOCALTIME",\&htmlExpanderLocalTime,"GMTIME",\&htmlExpanderGMTime,"GETDAY",\&htmlExpanderGetDayText,"MOONAGE",\&htmlExpanderMoonAgeText);
 	my $arg=$_[1];
 	my $commandName=$_[0];
 	if (exists $commandHash{$commandName}){
@@ -206,19 +204,6 @@ sub htmlExpanderMoonAge{
 	$VAR{'CALENDAR'}{'SCH_DAY'}=32;
 	}
 
-sub htmlExpanderRokuyou{
-	my $temp=$_[0];
-	my @arg=@$temp;
-	return "".("¬Á∞¬","¿÷∏˝","¿Ëæ°","Õß∞ÅE,"¿Ë…ÅE," ©Ã«")[qreki::get_rokuyou(correctDate(@arg))];
-	}
-
-sub htmlExpander24Sekki{
-	my $temp=$_[0];
-	my @arg;
-	my $default="";
-	($arg[0],$arg[1],$arg[2],$default)=@$temp;
-	return qreki::check_24sekki(@arg) eq ''? $default : "".qreki::check_24sekki(correctDate(@arg));
-	}
 
 sub htmlExpanderGetDayText{
 	my $text=$_[0];
@@ -232,17 +217,6 @@ sub htmlExpanderMoonAgeText{
 	return int(moonAge(correctDate($1,$2,$3),12));
 	}
 
-sub htmlExpanderRokuyouText{
-	my $text=$_[0];
-	$text=~ /(\d+)\D(\d+)\D(\d+)/;
-	return "".("¬Á∞¬","¿÷∏˝","¿Ëæ°","Õß∞ÅE,"¿Ë…ÅE," ©Ã«")[qreki::get_rokuyou(correctDate($1,$2,$3))];
-	}
-
-sub htmlExpander24SekkiText{
-	my $text=$_[0];
-	$text=~ /(\d+)\D(\d+)\D(\d+)/;
-	return qreki::check_24Sekki(correctDate($1,$2,$3));
-	}
 
 sub htmlExpanderAlink{
 	my $temp=$_[0];
@@ -255,7 +229,6 @@ sub htmlExpanderAlink{
 	}
 
 sub htmlExpanderSaveFormData{
-	#•ª•≠•Â•ÅE∆•£°ºæÂ§ŒÃ‰¬Í§«»Ûø‰æ©°£
 	my $temp=$_[0];
 	my @arg=@$temp;
 	my %baseHash=loadCsvHash(loadFile($arg[1]));
@@ -424,7 +397,7 @@ sub htmlExpanderCalendarSub{
 	$baseText=~ s/{day_m}/$arg[2]/g ;
 	$baseText=~ s/{month}/$arg[1]/g ;
 	$baseText=~ s/{year}/$arg[0]/g ;
-	$baseText=~ s/{day_w_j}/qw(∆ÅE∑ÅE≤– øÅEÃ⁄ ∂ÅE≈⁄)[getDay($arg[0],$arg[1],$arg[2])]/eg ;
+	$baseText=~ s/{day_w_j}/qw(≈‡E∏ÅE≤– ¿ÅEÃ⁄ µ‡E≈⁄)[getDay($arg[0],$arg[1],$arg[2])]/eg ;
 	$baseText=~ s/{day_w_e}/qw(Sun Mon Tue Wed Thu Fri Sat)[getDay($arg[0],$arg[1],$arg[2])]/eg ;
 	$baseText=~ s/{day_w_ef}/qw(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)[getDay($arg[0],$arg[1],$arg[2])]/eg ;
 	return $baseText;
@@ -483,18 +456,18 @@ sub getLocalTimeHash{
 	$TIME{"totalSec"}=$_[0] ;
 	($TIME{"sec"}, $TIME{"min"}, $TIME{"hour"}, $TIME{"mDay"}, $TIME{"month"}, $TIME{"year"}, $TIME{"wDay"}, $TIME{"yDay"}, $TIME{"summerTime"}) = localtime($TIME{"totalSec"});
 	
-	$TIME{"wDayJapanese"}=qw(∆ÅE∑ÅE≤– øÅEÃ⁄ ∂ÅE≈⁄)[$TIME{"wDay"}];
+	$TIME{"wDayJapanese"}=qw(≈‡E∏ÅE≤– ¿ÅEÃ⁄ µ‡E≈⁄)[$TIME{"wDay"}];
 	$TIME{"wDayEnglish"}=qw(Sun Mon Tue Wed Thu Fri Sat)[$TIME{"wDay"}];
 	$TIME{"wDayEnglishFull"}=qw(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)[$TIME{"wDay"}];
 	
-	$TIME{"mDayJapanese"}=qw(À”∑ÅE«°∑ÅEÃÅE∏ ±¨∑ÅEª©∑ÅEøÂÃµ∑ÅE ∏∑ÅEÕ’∑ÅEƒπ∑ÅEø¿Ãµ∑ÅE¡˙∑ÅEø¿≥⁄∑ÅEª’¡ÅE[$TIME{"month"}];
+	$TIME{"mDayJapanese"}=qw(À”∏ÅE«°∏ÅEÀ‡E∑˛±¨∏ÅEª©∏ÅEøÂÃµ∏ÅE ∏∏ÅEÕ’∏ÅEƒπ∏ÅEø¿Ãµ∏ÅE¡˙∏ÅEø¿≥⁄∏ÅEª’¬ÅE[$TIME{"month"}];
 	$TIME{"mDayEnglish"}=qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)[$TIME{"month"}];
 	$TIME{"mDayEnglishFull"}=qw(January February March April May June July August September October November December)[$TIME{"month"}];
 	
 	$TIME{"year"}+=1900;
 	$TIME{"month"}++;
 	
-	$TIME{"textDateJapanese"}=sprintf("%04d\«Ø%02d\∑ÅE02d\∆ÅE%s\)",$TIME{"year"},$TIME{"month"},$TIME{"mDay"},$TIME{"wDayJapanese"});
+	$TIME{"textDateJapanese"}=sprintf("%04d\«Ø%02d\∏ÅE02d\≈‡E%s\)",$TIME{"year"},$TIME{"month"},$TIME{"mDay"},$TIME{"wDayJapanese"});
 	$TIME{"textTimeJapanese"}=sprintf("%02d\ª˛%02d ¨%02d…√",$TIME{"hour"},$TIME{"min"},$TIME{"sec"});
 	$TIME{"textDate"}=sprintf("%04d\/%02d\/%02d\/(%s\)",$TIME{"year"},$TIME{"month"},$TIME{"mDay"},$TIME{"wDayEnglish"});
 	$TIME{"textTime"}=sprintf("%02d\:%02d:%02d",$TIME{"hour"},$TIME{"min"},$TIME{"sec"});
