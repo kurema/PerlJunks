@@ -456,19 +456,19 @@ sub getLocalTimeHash{
 	$TIME{"totalSec"}=$_[0] ;
 	($TIME{"sec"}, $TIME{"min"}, $TIME{"hour"}, $TIME{"mDay"}, $TIME{"month"}, $TIME{"year"}, $TIME{"wDay"}, $TIME{"yDay"}, $TIME{"summerTime"}) = localtime($TIME{"totalSec"});
 	
-	$TIME{"wDayJapanese"}=qw(ÅàE¸E²Ğ ÀEÌÚ µàEÅÚ)[$TIME{"wDay"}];
+	$TIME{"wDayJapanese"}=qw(“ú Œ ‰Î … –Ø ‹à “y)[$TIME{"wDay"}];
 	$TIME{"wDayEnglish"}=qw(Sun Mon Tue Wed Thu Fri Sat)[$TIME{"wDay"}];
 	$TIME{"wDayEnglishFull"}=qw(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)[$TIME{"wDay"}];
 	
-	$TIME{"mDayJapanese"}=qw(ËÓ¸EÇ¡¸EËàE·ş±¬¸E»©¸E¿åÌµ¸EÊ¸¸EÍÕ¸EÄ¹¸E¿ÀÌµ¸EÁú¸E¿À³Ú¸E»ÕÂE[$TIME{"month"}];
+	$TIME{"mDayJapanese"}=qw(–rŒ ”@Œ –í¶ ‰KŒ HŒ …–³Œ •¶Œ —tŒ ’·Œ _–³Œ ‘šŒ _ŠyŒ t‘–)[$TIME{"month"}];
 	$TIME{"mDayEnglish"}=qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)[$TIME{"month"}];
 	$TIME{"mDayEnglishFull"}=qw(January February March April May June July August September October November December)[$TIME{"month"}];
 	
 	$TIME{"year"}+=1900;
 	$TIME{"month"}++;
 	
-	$TIME{"textDateJapanese"}=sprintf("%04d\Ç¯%02d\¸E02d\ÅàE%s\)",$TIME{"year"},$TIME{"month"},$TIME{"mDay"},$TIME{"wDayJapanese"});
-	$TIME{"textTimeJapanese"}=sprintf("%02d\»ş%02dÊ¬%02dÉÃ",$TIME{"hour"},$TIME{"min"},$TIME{"sec"});
+	$TIME{"textDateJapanese"}=sprintf("%04d\”N%02d\Œ%02d\“ú(%s\)",$TIME{"year"},$TIME{"month"},$TIME{"mDay"},$TIME{"wDayJapanese"});
+	$TIME{"textTimeJapanese"}=sprintf("%02d\%02d•ª%02d•b",$TIME{"hour"},$TIME{"min"},$TIME{"sec"});
 	$TIME{"textDate"}=sprintf("%04d\/%02d\/%02d\/(%s\)",$TIME{"year"},$TIME{"month"},$TIME{"mDay"},$TIME{"wDayEnglish"});
 	$TIME{"textTime"}=sprintf("%02d\:%02d:%02d",$TIME{"hour"},$TIME{"min"},$TIME{"sec"});
 	
