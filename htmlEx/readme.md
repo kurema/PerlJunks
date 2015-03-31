@@ -20,7 +20,7 @@ index.cgiは一部正常に動作しません。
 {title} : {comment} @ {date}<br />
 <!-- COMMAND END INFO -->
 ```
-このように<!-- COMMAND BEGIN 命令 WORD --><!-- COMMAND END WORD -->形式でhtmlを引数とした命令を記述できます。  
+このように``<!-- COMMAND BEGIN 命令 WORD --><!-- COMMAND END WORD -->``形式でhtmlを引数とした命令を記述できます。  
 上はCSV形式のファイルを一行ずつ展開する命令になります。
 
 複数行の命令はPROGRAMで示せます。
